@@ -1,14 +1,6 @@
-﻿
-
-document.addEventListener("deviceready", onDeviceReady, false);
+﻿document.addEventListener("deviceready", onDeviceReady, false);
 function onDeviceReady(){
-	
-/*
-	window.plugin.notification.local.onclick(function (id, state, json) {
-		console.log(id, JSON.parse(json).test);
-		alert(JSON.parse(json).test + "  " + id);
-	});
-*/	
+	//$.ui.isAjaxApp=true;	
 	$("#notify").click(function(){
 		window.plugin.notification.local.add({
 			id:         1,
@@ -33,6 +25,7 @@ function onDeviceReady(){
 			//icon: 	"file:///img/beacon_logo.png",
 			json:       JSON.stringify({ test: "minor3" })
 		});
+		
 	});
 	
 	$("#clear").click(function(){
@@ -42,24 +35,17 @@ function onDeviceReady(){
 	window.plugin.notification.local.onclick = function (id, state, json) {
 		window.plugin.notification.local.cancel(id);
 		console.log(id, JSON.parse(json).test);
-		switch (id){
-			case '1':
-				window.open("./minor1.html");
-				break;
-			case '2':
-				window.open("./minor2.html");
-				break;
-			case '3':
-				window.open("./minor3.html");
-				break;
+		if( window.location.hash == "#notification"){
+			$.ui.updatePanel("#notification", "<div class='showDiv'><img src='./img/"+id+".jpg' id='showMinor' /><p id='coupon'></p><div class='showDate'><p id='activeDate'></p></div></div>");
+		}else{
+			setData("id", id);
+			$.ui.loadContent("#notification");
 		}
-		//alert(JSON.parse(json).test + " id:   " + id + " state: " + state);
-		
 	}
-	
+	/*
 	window.plugin.notification.local.setDefaults({ 
 		icon: "file://img/notify.png"
 	});
-
+	*/
 }
 

@@ -167,11 +167,16 @@
                 script.src = "plugins/af.desktopBrowsers.js";
                 var tag = $("head").append(script);
             }
+			
 			$.ui.ready(function(){ 
-				$("#afui").get(0).className='ios7'; //设置属于那种风格 
-				$.ui.toggleNavMenu();	//取消footer
-				$.ui.toggleHeaderMenu();	//取消header
+				if ($.os.android){
+					$("#afui").get(0).className='android'; //设置属于那种风格 
+				}else{
+					$("#afui").get(0).className='ios7'; //设置属于那种风格 
+				}
+				
 			});
+		
         </script>
 		<!--自己的JS-->
         <script type="text/javascript" src="cordova.js"></script>
@@ -183,43 +188,50 @@
     <body>
         <div id="afui" class="ios7">
 			<div id="content">
-				<div id="main" class="panel" selected="true" data-nav="menu_beacons">
+				<div id="main" class="panel" selected="true" data-nav="menu_beacons" data-footer='none' data-header='none'>
+					
 					<img border="0"  src="img/main.jpg" title="Orange star" align="center" class style="position:relative; z-index:-1;"/>
 					<div class style="margin-top: -200px; text-align:center;">
 						<button id="notify">推送</button>
 						<button id="clear">清空</button>
 					</div>
 				</div>
-			<nav id="menu_beacons">
-                <ul class="list" id="navList">
-                    <li class="divider">附近蓝牙基站信息</li>
-                    <li>
-                        <a href="#">
-							<img src="./img/beacon_gray.png" class="myFloat" />
-							<div class="myFloat">
-								<p>Minor: 5434fsdf</p>
-								<p>Accuracy: 135cm</p>
-							</div>
-						</a>
-                    </li>
-                </ul>
-            </nav>
-			<!-- 右边栏显示
-			<aside>
-                <ul class="list">
-                     <li class="divider">Beacons</li>
-                    <li>
-                        <a href="#">beacons1</a>
-                    </li>
-                    <li>
-                        <a href="#">beacons2</a>
-                    </li>
-                    <li>
-                        <a href="#">beacons3</a>
-                    </li>
-                </ul>
-            </aside>
-			-->
+				
+				<div id="notification" class="panel"  data-footer='none' data-load="showImage" data-header='myHeader'>
+					<script>
+						function showImage(){
+							var id = getData("id");
+							$('#showMinor').prop("src", "./img/"+id+".jpg") ;
+						}
+					</script>
+					<div class="showDiv">
+						<img src="" id="showMinor" />
+						<p id="coupon"></p>
+						<div class="showDate">
+							<p id="activeDate"></p>
+						</div>
+					</div>
+					
+				</div>
+				<header id="myHeader">
+					<a id="backButton" onclick="$.ui.goBack()" class='button'>返回</a>
+					<h1>内容</h1>
+				</header>
+				<nav id="menu_beacons">
+					<ul class="list" id="navList">
+						<li class="divider">附近蓝牙基站信息</li>
+						<li>
+							<a href="#">
+								<img src="./img/beacon_gray.png" class="myFloat" />
+								<div class="myFloat">
+									<p>Minor: 5434fsdf</p>
+									<p>Accuracy: 135cm</p>
+								</div>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
 		</div>
     </body>
 </html>
